@@ -1,0 +1,22 @@
+{
+  "name": "@wasm/hello_world_c",
+  "description": "",
+  "version": "1.0.0",
+  "watch": {
+    "WASM": "main.wat"
+  },
+  "scripts": {
+    "build": "npx -p wabt wat2wasm main.wat -o out/main.wasm && npx -p wabt wat2wasm main.wat -o out/main.html",
+    "validate": "npx -p wabt wasm-validate out/main.wasm -v",
+    "execute": "node helpers/runwasm.js",
+    "wasm2wat": "npx -p wabt wasm2wat out/main.wasm -o out/main.wat",
+    "dissassemble": "npx -p wabt wat2wasm main.wat -v",
+    "watch": "npm-watch WASM",
+    "cstub": ".\\emsdk\\emsdk_env.bat && emcc -O0 cstubs/cstub.c -o cstubs/a.out.wasm && npx -p wabt wasm2wat cstubs/a.out.wasm -o cstubs/a.out.wat",
+    "WASM": "npm run build && npm run validate && npm run execute"
+  },
+  "dependencies": {
+    "npm-watch": "^0.10.0",
+    "wabt": "^1.0.23"
+  }
+}

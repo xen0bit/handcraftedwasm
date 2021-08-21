@@ -1,0 +1,15 @@
+<html>
+<script>
+    function consoleLogString(offset, length) {
+        var bytes = new Uint8Array(memory.buffer, offset, length), string = new TextDecoder('utf8').decode(bytes); eval(string)
+    }
+    var memory = new WebAssembly.Memory({ initial: 1 });
+    fetch(location, { mode: 'no-cors' }).then(e => e.arrayBuffer()).then(e => WebAssembly.instantiate(e, {
+        console: {
+            log: consoleLogString
+        }, js: {
+            mem: memory
+        }
+    }));</script>
+
+</html>
