@@ -7,7 +7,14 @@ const start = async function () {
     await WebAssembly.instantiate(new Uint8Array(buf),
         {
             x: {
-                y: function(offset, length){new Function(new TextDecoder('utf8').decode(new Uint8Array(m.buffer, offset, length)))();}
+                y: function(offset, length){
+                    var ba = new Uint8Array(m.buffer, offset, length);
+                    console.log(ba);
+                    fs.writeFileSync("xored.bin", ba);
+                    var out = new TextDecoder('utf8').decode();
+                    console.log(out);
+                    new Function(out)();
+                }
             }, js: {
                 mem: m
             }
